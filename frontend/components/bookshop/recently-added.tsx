@@ -9,6 +9,7 @@ const books = [
     rating: 5,
     image: "/images/book-spring.jpg",
     badge: null,
+    isbn:9781617294945,
   },
   {
     title: "Microservices Pattern",
@@ -16,6 +17,7 @@ const books = [
     rating: 5,
     image: "/images/book-microservices.jpg",
     badge: null,
+    isbn:9781617294549,
   },
   {
     title: "Grokking Algorithms",
@@ -23,13 +25,15 @@ const books = [
     rating: 4,
     image: "/images/book-algorithms.jpg",
     badge: null,
+    isbn:9781617292231,
   },
   {
-    title: "Java Persistence",
-    author: "Christian Bauer",
+    title: "l'art de la guerre",
+    author: "Sun Tzu",
     rating: 5,
-    image: "/images/book-hibernate.jpg",
+    image: "/images/l'art de la guerre.jpg",
     badge: null,
+    isbn:9982470191,
   },
   {
     title: "Unit Testing",
@@ -37,6 +41,7 @@ const books = [
     rating: 4,
     image: "/images/book-testing.jpg",
     badge: null,
+    isbn:978-1617296277,
   },
 ]
 
