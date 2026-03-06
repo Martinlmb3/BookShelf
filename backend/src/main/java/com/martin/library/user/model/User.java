@@ -1,4 +1,4 @@
-package be.martin.spring_security.model;
+package com.martin.library.user.model;
 
 import jakarta.persistence.*;
 import lombok.*;

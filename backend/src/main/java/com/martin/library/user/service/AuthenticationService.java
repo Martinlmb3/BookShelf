@@ -1,10 +1,10 @@
-package be.martin.spring_security.service;
+package com.martin.library.user.service;
 
-import be.martin.spring_security.dto.LoginUserDto;
-import be.martin.spring_security.dto.RegisterUserDto;
-import be.martin.spring_security.dto.VerifyUserDto;
-import be.martin.spring_security.model.User;
-import be.martin.spring_security.repository.UserRepository;
+import com.martin.library.user.dto.LoginUserDto;
+import com.martin.library.user.dto.RegisterUserDto;
+import com.martin.library.user.dto.VerifyUserDto;
+import com.martin.library.user.model.User;
+import com.martin.library.user.repository.UserRepository;
 import jakarta.mail.MessagingException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,10 +22,10 @@ public class AuthenticationService {
     private final EmailService emailService;
 
     public AuthenticationService(
-        UserRepository userRepository,
-        PasswordEncoder passwordEncoder,
-        AuthenticationManager authenticationManager,
-        EmailService emailService) {
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder,
+            AuthenticationManager authenticationManager,
+            EmailService emailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
@@ -43,17 +43,15 @@ public class AuthenticationService {
 
     public User authenticate(LoginUserDto input) {
         User user = userRepository.findByEmail(input.getEmail())
-            .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (!user.isEnabled()) {
             throw new RuntimeException("Account not verified. Please verify your account");
         }
         authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(
-                input.getEmail(),
-                input.getPassword()
-            )
-        );
+                new UsernamePasswordAuthenticationToken(
+                        input.getEmail(),
+                        input.getPassword()));
 
         return user;
     }
@@ -98,17 +96,17 @@ public class AuthenticationService {
         String subject = "Account Verification";
         String verificationCode = user.getVerificationCode();
         String htmlMessage = "<html>"
-            + "<body style=\"font-family: Arial, sans-serif;\">"
-            + "<div style=\"background-color: #f5f5f5; padding: 20px;\">"
-            + "<h2 style=\"color: #333;\">Welcome to our app!</h2>"
-            + "<p style=\"font-size: 16px;\">Please enter the verification code below to continue:</p>"
-            + "<div style=\"background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);\">"
-            + "<h3 style=\"color: #333;\">Verification Code:</h3>"
-            + "<p style=\"font-size: 18px; font-weight: bold; color: #007bff;\">" + verificationCode + "</p>"
-            + "</div>"
-            + "</div>"
-            + "</body>"
-            + "</html>";
+                + "<body style=\"font-family: Arial, sans-serif;\">"
+                + "<div style=\"background-color: #f5f5f5; padding: 20px;\">"
+                + "<h2 style=\"color: #333;\">Welcome to our app!</h2>"
+                + "<p style=\"font-size: 16px;\">Please enter the verification code below to continue:</p>"
+                + "<div style=\"background-color: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0,0,0,0.1);\">"
+                + "<h3 style=\"color: #333;\">Verification Code:</h3>"
+                + "<p style=\"font-size: 18px; font-weight: bold; color: #007bff;\">" + verificationCode + "</p>"
+                + "</div>"
+                + "</div>"
+                + "</body>"
+                + "</html>";
 
         try {
             emailService.sendVerificationEmail(user.getEmail(), subject, htmlMessage);

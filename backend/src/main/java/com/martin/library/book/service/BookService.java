@@ -2,11 +2,8 @@ package com.martin.library.book.service;
 
 import java.time.Year;
 
-import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import com.martin.library.book.Repository.BookRepository;

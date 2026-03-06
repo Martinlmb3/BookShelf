@@ -1,4 +1,4 @@
-package be.martin.spring_security.config;
+package com.martin.library.configuration;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +15,7 @@ public class EmailConfiguration {
     private String password;
 
     @Bean
-    public JavaMailSender JavaMailSender(){
+    public JavaMailSender JavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);

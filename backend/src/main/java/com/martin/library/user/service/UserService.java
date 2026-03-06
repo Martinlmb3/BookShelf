@@ -1,7 +1,7 @@
-package be.martin.spring_security.service;
+package com.martin.library.user.service;
 
-import be.martin.spring_security.model.User;
-import be.martin.spring_security.repository.UserRepository;
+import com.martin.library.user.model.User;
+import com.martin.library.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +14,10 @@ public class UserService {
     public UserService(UserRepository userRepository, EmailService emailService) {
         this.userRepository = userRepository;
     }
+
     public List<User> allUsers() {
         List<User> users = new ArrayList<>();
-        userRepository.findAll().forEach(users :: add);
+        userRepository.findAll().forEach(users::add);
         return users;
     }
 }

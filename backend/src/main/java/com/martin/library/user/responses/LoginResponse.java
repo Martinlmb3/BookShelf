@@ -1,8 +1,7 @@
-package be.martin.spring_security.responses;
+package com.martin.library.user.responses;
 
 import lombok.Getter;
 import lombok.Setter;
-
 
 @Getter
 @Setter
@@ -11,7 +10,7 @@ public class LoginResponse {
     private String token;
     private long expiresIn;
 
-    public LoginResponse(String token, long expiresIn){
+    public LoginResponse(String token, long expiresIn) {
         this.token = token;
         this.expiresIn = expiresIn;
     }

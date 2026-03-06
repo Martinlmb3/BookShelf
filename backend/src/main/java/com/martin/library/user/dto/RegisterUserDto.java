@@ -1,4 +1,4 @@
-package be.martin.spring_security.dto;
+package com.martin.library.user.dto;
 
 import lombok.Getter;
 import lombok.Setter;

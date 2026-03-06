@@ -1,7 +1,7 @@
-package be.martin.spring_security.controller;
+package com.martin.library.user.controller;
 
-import be.martin.spring_security.model.User;
-import be.martin.spring_security.service.UserService;
+import com.martin.library.user.model.User;
+import com.martin.library.user.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,9 +26,10 @@ public class UserController {
         User currentUser = (User) authentication.getPrincipal();
         return ResponseEntity.ok(currentUser);
     }
+
     @GetMapping("/")
-        public ResponseEntity<List<User>> allUsers() {
-        List <User> users = userService.allUsers();
+    public ResponseEntity<List<User>> allUsers() {
+        List<User> users = userService.allUsers();
         return ResponseEntity.ok(users);
     }
 }

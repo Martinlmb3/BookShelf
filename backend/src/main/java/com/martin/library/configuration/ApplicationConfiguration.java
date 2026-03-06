@@ -1,6 +1,6 @@
-package be.martin.spring_security.config;
+package com.martin.library.configuration;
 
-import be.martin.spring_security.repository.UserRepository;
+import com.martin.library.user.repository.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

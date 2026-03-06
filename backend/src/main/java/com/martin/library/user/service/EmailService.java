@@ -1,4 +1,4 @@
-package be.martin.spring_security.service;
+package com.martin.library.user.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

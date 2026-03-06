@@ -1,16 +1,16 @@
-package be.martin.spring_security.controller;
+package com.martin.library.user.controller;
 
-import be.martin.spring_security.dto.LoginUserDto;
-import be.martin.spring_security.dto.RegisterUserDto;
-import be.martin.spring_security.dto.VerifyUserDto;
-import be.martin.spring_security.model.User;
-import be.martin.spring_security.responses.LoginResponse;
-import be.martin.spring_security.service.AuthenticationService;
-import be.martin.spring_security.service.JwtService;
+import com.martin.library.user.dto.LoginUserDto;
+import com.martin.library.user.dto.RegisterUserDto;
+import com.martin.library.user.dto.VerifyUserDto;
+import com.martin.library.user.model.User;
+import com.martin.library.user.responses.LoginResponse;
+import com.martin.library.user.service.AuthenticationService;
+import com.martin.library.user.service.JwtService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/Auth")
+@RequestMapping("/auth")
 @RestController
 public class AuthtenticationController {
     private final JwtService jwtService;

@@ -1,6 +1,6 @@
 <div align="center">
 
-![BookShop Logo](public/images/BookShop%20-%20logo.svg)
+![BookShop Logo](frontend/public/images/BookShop%20-%20logo.svg)
 
 </div>
 
@@ -43,6 +43,7 @@
 ## 🚀 Tech Stack
 
 ### Frontend
+
 - **Framework**: Next.js 16 (App Router)
 - **Language**: TypeScript, React 19
 - **Styling**: Tailwind CSS
@@ -109,6 +110,7 @@ BookShop/
 ## 🛠️ Installation & Setup
 
 ### Prerequisites
+
 - Node.js 18+ and npm
 - Java 17+ JDK
 - PostgreSQL database (optional for production)
@@ -125,6 +127,7 @@ npm run dev
 The frontend will run at `http://localhost:3000`
 
 ### Backend Setup
+
 ```bash
 cd backend
 ./gradlew bootRun
@@ -182,6 +185,7 @@ Key entities include:
 ## 🎨 UI Components
 
 Built with modern, accessible components:
+
 - Responsive navigation with public and authenticated variants
 - Book cards with genre tags and rating badges
 - Category filters (Fiction, Non-Fiction, Sci-Fi & Fantasy, Mystery, Biography)
