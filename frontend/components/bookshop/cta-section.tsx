@@ -27,6 +27,12 @@ export function CTASection() {
               >
                 Browse Guest Mode
               </Link>
+              <Link
+                href="/documentation"
+                className="text-sm font-semibold text-muted-foreground transition-colors hover:text-foreground"
+              >
+                Read the docs →
+              </Link>
             </div>
           </div>
         </div>

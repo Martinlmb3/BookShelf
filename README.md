@@ -22,7 +22,7 @@
 
 ---
 
-<h1 align="center">BookShop</h1>
+<h1 align="center">BookShelf</h1>
 
 <p align="center">A modern, full-stack digital library platform for book enthusiasts. Manage your personal book collection, discover new reads, track your reading progress, and organize your literary journey — all in one beautifully designed application.</p>
 

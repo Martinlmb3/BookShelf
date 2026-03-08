@@ -9,13 +9,13 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-2">
               <Image
-                src="/images/BookShop - logo.svg"
-                alt="BookShop Logo"
+                src="/images/BookShelf - logo.svg"
+                alt="BookShelf Logo"
                 width={32}
                 height={32}
                 className="h-8 w-8"
               />
-              <span className="text-lg font-bold text-foreground">BookShop</span>
+              <span className="text-lg font-bold text-foreground">BookShelf</span>
             </div>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
               The modern standard for managing personal book collections. Built with Java Spring
@@ -45,10 +45,10 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/documentation"
                   className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                 >
-                  API Docs
+                  Documentation
                 </Link>
               </li>
             </ul>
@@ -118,7 +118,7 @@ export function Footer() {
         </div>
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 md:flex-row">
           <p className="text-sm text-muted-foreground">
-            {"© 2024 BookShop. All rights reserved."}
+            {"© 2024 BookShelf. All rights reserved."}
           </p>
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-emerald-500" />

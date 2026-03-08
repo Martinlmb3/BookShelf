@@ -3,7 +3,7 @@ import { AddBookForm } from "@/components/bookshop/add-book-form"
 import { Footer } from "@/components/bookshop/footer"
 
 export const metadata = {
-  title: "Add New Book - BookShop",
+  title: "Add New Book - BookShelf",
   description: "Add a new book to your personal library collection",
 }
 

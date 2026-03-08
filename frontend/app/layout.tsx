@@ -9,7 +9,7 @@ const _jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "BookShop - Your Personal Digital Library",
+  title: "BookShelf - Your Personal Digital Library",
   description:
     "Manage your books, track your reading progress, and secure your data. A modern solution for book enthusiasts.",
   icons: {

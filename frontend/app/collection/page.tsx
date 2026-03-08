@@ -3,7 +3,7 @@ import { CollectionDashboard } from "@/components/bookshop/collection-dashboard"
 import { Footer } from "@/components/bookshop/footer"
 
 export const metadata = {
-  title: "My Collection - BookShop",
+  title: "My Collection - BookShelf",
   description: "Manage your digital library and book metadata with ease.",
 }
 

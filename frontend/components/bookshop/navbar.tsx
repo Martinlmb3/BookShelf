@@ -14,13 +14,13 @@ export function Navbar({ variant = "public" }: { variant?: "public" | "auth" }) 
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 lg:px-8">
           <Link href="/" className="flex items-center gap-2">
             <Image
-              src="/images/BookShop - logo.svg"
-              alt="BookShop Logo"
+              src="/images/BookShelf - logo.svg"
+              alt="BookShelf Logo"
               width={32}
               height={32}
               className="h-8 w-8"
             />
-            <span className="text-lg font-bold text-foreground">BookShop</span>
+            <span className="text-lg font-bold text-foreground">BookShelf</span>
           </Link>
           <nav className="hidden items-center gap-8 md:flex">
             <Link
@@ -66,13 +66,13 @@ export function Navbar({ variant = "public" }: { variant?: "public" | "auth" }) 
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 lg:px-8">
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/images/BookShop - logo.svg"
-            alt="BookShop Logo"
+            src="/images/BookShelf - logo.svg"
+            alt="BookShelf Logo"
             width={32}
             height={32}
             className="h-8 w-8"
           />
-          <span className="text-lg font-bold text-foreground">BookShop</span>
+          <span className="text-lg font-bold text-foreground">BookShelf</span>
         </Link>
         <nav className="hidden items-center gap-8 md:flex">
           <Link
@@ -86,6 +86,12 @@ export function Navbar({ variant = "public" }: { variant?: "public" | "auth" }) 
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
             My Collection
+          </Link>
+          <Link
+            href="/documentation"
+            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Docs
           </Link>
           <Link
             href="/login"

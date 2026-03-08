@@ -3,8 +3,8 @@ import { BrowseContent } from "@/components/bookshop/browse-content"
 import { Footer } from "@/components/bookshop/footer"
 
 export const metadata = {
-  title: "Browse Library - BookShop",
-  description: "Browse and discover books in the BookShop library catalog.",
+  title: "Browse Library - BookShelf",
+  description: "Browse and discover books in the BookShelf library catalog.",
 }
 
 export default function BrowsePage() {

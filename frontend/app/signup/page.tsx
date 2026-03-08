@@ -3,7 +3,7 @@ import { SignupForm } from "@/components/bookshop/signup-form"
 import { Footer } from "@/components/bookshop/footer"
 
 export const metadata = {
-  title: "Sign Up - BookShop",
+  title: "Sign Up - BookShelf",
   description: "Create your account to start managing your library",
 }
 
