@@ -1,6 +1,6 @@
 <div align="center">
 
-![BookShop Logo](frontend/public/images/BookShop%20-%20logo.svg)
+![BookShelf Logo](frontend/public/images/BookShelf%20-%20logo.svg)
 
 </div>
 

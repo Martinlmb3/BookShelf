@@ -1,6 +1,3 @@
-
-
-
 export function isValidIsbn10(isbn: string) {
     const digits = isbn.replace(/[-\s]/g, "");
     if (!/^\d{9}[\dXx]$/.test(digits)) return false;
