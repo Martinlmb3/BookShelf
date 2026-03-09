@@ -1,17 +1,33 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { AtSign, Lock, Eye, EyeOff } from "lucide-react"
+import { useState } from "react";
+import Link from "next/link";
+import { AtSign, Lock, Eye, EyeOff } from "lucide-react";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import api from "@/lib/api";
+
+const zodSignupSchema = z
+  .object({
+    username: z.string().min(2, "Username must be at least 2 characters"),
+    email: z.string().email("Invalid email address"),
+    password: z.string().min(6, "Password must be at least 6 characters"),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
 
 export function LoginForm() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
-  const [stayLoggedIn, setStayLoggedIn] = useState(false)
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [stayLoggedIn, setStayLoggedIn] = useState(false);
 
   function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
+    e.preventDefault();
   }
 
   return (
@@ -20,7 +36,9 @@ export function LoginForm() {
       <div className="w-full max-w-md rounded-2xl border border-border bg-card p-8">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-foreground">Welcome Back</h1>
-          <p className="mt-2 text-sm text-muted-foreground">Access your digital library</p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Access your digital library
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-5">
@@ -44,8 +62,13 @@ export function LoginForm() {
           {/* Password */}
           <div>
             <div className="mb-2 flex items-center justify-between">
-              <label className="text-sm font-medium text-foreground">Password</label>
-              <Link href="#" className="text-xs font-medium text-primary hover:underline">
+              <label className="text-sm font-medium text-foreground">
+                Password
+              </label>
+              <Link
+                href="#"
+                className="text-xs font-medium text-primary hover:underline"
+              >
                 Reset password?
               </Link>
             </div>
@@ -63,7 +86,11 @@ export function LoginForm() {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
               >
-                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
               </button>
             </div>
           </div>
@@ -76,7 +103,9 @@ export function LoginForm() {
               onChange={(e) => setStayLoggedIn(e.target.checked)}
               className="h-4 w-4 rounded border-border bg-secondary accent-primary"
             />
-            <span className="text-sm text-muted-foreground">Stay logged in</span>
+            <span className="text-sm text-muted-foreground">
+              Stay logged in
+            </span>
           </label>
 
           {/* Login Button */}
@@ -93,7 +122,10 @@ export function LoginForm() {
           {/* Sign Up Link */}
           <p className="text-center text-sm text-muted-foreground">
             New bibliophile?{" "}
-            <Link href="/signup" className="font-medium text-primary hover:underline">
+            <Link
+              href="/signup"
+              className="font-medium text-primary hover:underline"
+            >
               Create your shelf
             </Link>
           </p>
@@ -116,5 +148,5 @@ export function LoginForm() {
         </div>
       </div>
     </div>
-  )
+  );
 }

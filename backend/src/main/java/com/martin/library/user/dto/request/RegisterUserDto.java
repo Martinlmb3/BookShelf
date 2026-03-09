@@ -1,12 +1,12 @@
-package com.martin.library.user.dto;
+package com.martin.library.user.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-
-public class LoginUserDto {
+public class RegisterUserDto {
     private String email;
     private String password;
+    private String username;
 }

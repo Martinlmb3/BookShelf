@@ -47,6 +47,14 @@ export function Navbar({ variant = "public" }: { variant?: "public" | "auth" }) 
             >
               Add Book
             </Link>
+            <Link
+              href="/ask-my-book"
+              className={`text-sm font-medium transition-colors hover:text-primary ${
+                pathname === "/ask-my-book" ? "text-primary" : "text-muted-foreground"
+              }`}
+            >
+              AskMyBook
+            </Link>
           </nav>
           <div className="flex items-center gap-3">
             <Link

@@ -1,8 +1,8 @@
 package com.martin.library.user.controller;
 
-import com.martin.library.user.dto.LoginUserDto;
-import com.martin.library.user.dto.RegisterUserDto;
 import com.martin.library.user.dto.VerifyUserDto;
+import com.martin.library.user.dto.request.LoginUserDto;
+import com.martin.library.user.dto.request.RegisterUserDto;
 import com.martin.library.user.model.User;
 import com.martin.library.user.responses.LoginResponse;
 import com.martin.library.user.service.AuthenticationService;
