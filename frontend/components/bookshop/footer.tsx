@@ -1,7 +1,9 @@
-import Link from "next/link"
-import Image from "next/image"
+import Link from "next/link";
+import Image from "next/image";
 
 export function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
     <footer className="border-t border-border bg-background">
       <div className="mx-auto max-w-7xl px-4 py-12 lg:px-8">
@@ -15,11 +17,13 @@ export function Footer() {
                 height={32}
                 className="h-8 w-8"
               />
-              <span className="text-lg font-bold text-foreground">BookShelf</span>
+              <span className="text-lg font-bold text-foreground">
+                BookShelf
+              </span>
             </div>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-              The modern standard for managing personal book collections. Built with Java Spring
-              Boot and designed for the web.
+              The modern standard for managing personal book collections. Built
+              with Java Spring Boot and designed for the web.
             </p>
           </div>
           <div>
@@ -118,14 +122,16 @@ export function Footer() {
         </div>
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 md:flex-row">
           <p className="text-sm text-muted-foreground">
-            {"© 2024 BookShelf. All rights reserved."}
+            {`© ${currentYear} BookShelf. All rights reserved.`}
           </p>
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-emerald-500" />
-            <span className="text-sm text-muted-foreground">Service Status: Operational</span>
+            <span className="text-sm text-muted-foreground">
+              Service Status: Operational
+            </span>
           </div>
         </div>
       </div>
     </footer>
-  )
+  );
 }

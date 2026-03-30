@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
-import "./globals.css";
 import { Providers } from "./providers";
+import "../styles/globals.css";
 
 const _inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const _jetbrainsMono = JetBrains_Mono({
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description:
     "Manage your books, track your reading progress, and secure your data. A modern solution for book enthusiasts.",
   icons: {
-    icon: "/images/BookShop - logo.svg",
+    icon: "/images/BookShelf - logo.svg",
   },
 };
 

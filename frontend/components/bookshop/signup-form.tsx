@@ -4,23 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import { User, AtSign, Lock, ShieldCheck, Eye, EyeOff } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
-import api from "@/lib/api";
-
-const zodSignupSchema = z
-  .object({
-    username: z.string().min(2, "Username must be at least 2 characters"),
-    email: z.string().email("Invalid email address"),
-    password: z.string().min(6, "Password must be at least 6 characters"),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
-  });
-
-type SignupFormData = z.infer<typeof zodSignupSchema>;
+import api from "@/services/api/axios";
+import { signupSchema, type SignupFormData } from "@/schemas/auth.schema";
 
 export function SignupForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -31,7 +17,7 @@ export function SignupForm() {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<SignupFormData>({
-    resolver: zodResolver(zodSignupSchema),
+    resolver: zodResolver(signupSchema),
   });
 
   const onSubmit = async (data: SignupFormData) => {

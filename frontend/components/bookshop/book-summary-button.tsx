@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useGenerateBookSummary } from "@/lib/hooks";
+import { useGenerateBookSummary } from "@/hooks/isbn";
 import { Button } from "@/components/ui/button";
 import { Loader2, Sparkles } from "lucide-react";
 

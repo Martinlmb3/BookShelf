@@ -3,32 +3,39 @@
 import { useState } from "react";
 import Link from "next/link";
 import { AtSign, Lock, Eye, EyeOff } from "lucide-react";
-import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import api from "@/lib/api";
-
-const zodSignupSchema = z
-  .object({
-    username: z.string().min(2, "Username must be at least 2 characters"),
-    email: z.string().email("Invalid email address"),
-    password: z.string().min(6, "Password must be at least 6 characters"),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
-  });
+import api from "@/services/api/axios";
+import { loginSchema, type LoginFormData } from "@/schemas/auth.schema";
 
 export function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [stayLoggedIn, setStayLoggedIn] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      stayLoggedIn: false,
+    },
+  });
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-  }
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      const response = await api.post("/api/auth/login", {
+        email: data.email,
+        password: data.password,
+      });
+      console.log("Login successful:", response.data);
+      // TODO: Handle successful login flow.
+    } catch (error: any) {
+      console.error("Login error:", error.response?.data || error.message);
+      // TODO: Show error message to user.
+    }
+  };
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center px-4 py-16">
@@ -41,7 +48,10 @@ export function LoginForm() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-5">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mt-8 flex flex-col gap-5"
+        >
           {/* Username / Email */}
           <div>
             <label className="mb-2 block text-sm font-medium text-foreground">
@@ -51,12 +61,16 @@ export function LoginForm() {
               <AtSign className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <input
                 type="text"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                {...register("email")}
                 placeholder="alex.reader"
                 className="w-full rounded-lg border border-border bg-secondary/50 py-3 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
               />
             </div>
+            {errors.email && (
+              <p className="mt-1 text-xs text-red-500">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
           {/* Password */}
@@ -76,8 +90,7 @@ export function LoginForm() {
               <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <input
                 type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                {...register("password")}
                 placeholder="••••••••"
                 className="w-full rounded-lg border border-border bg-secondary/50 py-3 pl-10 pr-10 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
               />
@@ -93,14 +106,18 @@ export function LoginForm() {
                 )}
               </button>
             </div>
+            {errors.password && (
+              <p className="mt-1 text-xs text-red-500">
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
           {/* Stay Logged In */}
           <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="checkbox"
-              checked={stayLoggedIn}
-              onChange={(e) => setStayLoggedIn(e.target.checked)}
+              {...register("stayLoggedIn")}
               className="h-4 w-4 rounded border-border bg-secondary accent-primary"
             />
             <span className="text-sm text-muted-foreground">
@@ -111,9 +128,10 @@ export function LoginForm() {
           {/* Login Button */}
           <button
             type="submit"
+            disabled={isSubmitting}
             className="w-full rounded-lg bg-primary py-3 text-sm font-bold uppercase tracking-wider text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Login to Account
+            {isSubmitting ? "Logging in..." : "Login to Account"}
           </button>
 
           {/* Divider */}
