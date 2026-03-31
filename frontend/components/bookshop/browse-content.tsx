@@ -1,12 +1,20 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useMemo, useState } from "react"
+import Link from "next/link"
 import Image from "next/image"
 import {
   Search,
   ChevronLeft,
   ChevronRight,
+  Heart,
 } from "lucide-react"
+import {
+  addBookToWishlist,
+  getWishlistBooks,
+  removeBookFromWishlist,
+  type WishlistBook,
+} from "@/lib/wishlist"
 
 const categories = [
   { name: "Fiction", checked: true },
@@ -18,6 +26,7 @@ const categories = [
 
 const books = [
   {
+    id: "the-echoes-of-time",
     title: "The Echoes of Time",
     author: "A. J. Sterling",
     genre: "SCI-FI",
@@ -26,6 +35,7 @@ const books = [
     wishlist: true,
   },
   {
+    id: "shadows-in-paris",
     title: "Shadows in Paris",
     author: "Elara Vance",
     genre: "MYSTERY",
@@ -34,6 +44,7 @@ const books = [
     wishlist: false,
   },
   {
+    id: "thinking-patterns",
     title: "Thinking Patterns",
     author: "Prof. Marcus Thorne",
     genre: "PHILOSOPHY",
@@ -42,6 +53,7 @@ const books = [
     wishlist: false,
   },
   {
+    id: "a-silent-symphony",
     title: "A Silent Symphony",
     author: "Julianne Brooks",
     genre: "FICTION",
@@ -50,6 +62,7 @@ const books = [
     wishlist: false,
   },
   {
+    id: "midnight-crossing",
     title: "Midnight Crossing",
     author: "Robert K. Hunt",
     genre: "THRILLER",
@@ -58,6 +71,7 @@ const books = [
     wishlist: false,
   },
   {
+    id: "empires-of-old",
     title: "Empires of Old",
     author: "Sarah Jenkins",
     genre: "HISTORY",
@@ -66,6 +80,7 @@ const books = [
     wishlist: false,
   },
   {
+    id: "summer-of-leaves",
     title: "Summer of Leaves",
     author: "Oliver Greene",
     genre: "FICTION",
@@ -74,6 +89,7 @@ const books = [
     wishlist: false,
   },
   {
+    id: "antique-whispers",
     title: "Antique Whispers",
     author: "Various Authors",
     genre: "CLASSICS",
@@ -87,6 +103,23 @@ const books = [
 export function BrowseContent() {
   const [searchQuery, setSearchQuery] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
+  const [wishlistIds, setWishlistIds] = useState<Set<string>>(new Set())
+
+  useEffect(() => {
+    const savedBooks = getWishlistBooks()
+    setWishlistIds(new Set(savedBooks.map((book) => book.id)))
+  }, [])
+
+  const totalWishlistBooks = useMemo(() => wishlistIds.size, [wishlistIds])
+
+  const handleToggleWishlist = (book: WishlistBook) => {
+    const alreadySaved = wishlistIds.has(book.id)
+    const updated = alreadySaved
+      ? removeBookFromWishlist(book.id)
+      : addBookToWishlist(book)
+
+    setWishlistIds(new Set(updated.map((item) => item.id)))
+  }
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8">
@@ -140,6 +173,13 @@ export function BrowseContent() {
               </p>
             </div>
             <div className="flex items-center gap-3">
+              <Link
+                href="/wishlist"
+                className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
+              >
+                <Heart className="h-4 w-4 text-primary" />
+                Wishlist ({totalWishlistBooks})
+              </Link>
               <span className="text-sm text-muted-foreground">Sort by:</span>
               <select className="rounded-lg border border-border bg-secondary px-3 py-2 text-sm text-foreground focus:border-primary focus:outline-none">
                 <option>Newest Arrivals</option>
@@ -154,7 +194,7 @@ export function BrowseContent() {
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {books.map((book) => (
               <div
-                key={book.title}
+                key={book.id}
                 className="group overflow-hidden rounded-xl border border-border bg-card transition-colors hover:border-primary/30"
               >
                 <div className="relative h-52 overflow-hidden">
@@ -176,6 +216,26 @@ export function BrowseContent() {
                   </span>
                   <h3 className="mt-1 text-sm font-bold text-foreground">{book.title}</h3>
                   <p className="text-xs text-muted-foreground">{book.author}</p>
+                  <button
+                    onClick={() =>
+                      handleToggleWishlist({
+                        id: book.id,
+                        title: book.title,
+                        author: book.author,
+                        genre: book.genre,
+                        image: book.image,
+                        badge: book.badge,
+                      })
+                    }
+                    className={`mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors ${
+                      wishlistIds.has(book.id)
+                        ? "border-primary/40 text-primary hover:bg-primary/10"
+                        : "border-border text-muted-foreground hover:border-primary/30 hover:text-foreground"
+                    }`}
+                  >
+                    <Heart className="h-4 w-4" />
+                    {wishlistIds.has(book.id) ? "Added to wishlist" : "Add to wishlist"}
+                  </button>
                 </div>
               </div>
             ))}

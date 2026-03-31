@@ -40,6 +40,14 @@ export function Navbar({ variant = "public" }: { variant?: "public" | "auth" }) 
               Browse Store
             </Link>
             <Link
+              href="/wishlist"
+              className={`text-sm font-medium transition-colors hover:text-primary ${
+                pathname === "/wishlist" ? "text-primary" : "text-muted-foreground"
+              }`}
+            >
+              Wishlist
+            </Link>
+            <Link
               href="/add-book"
               className={`text-sm font-medium transition-colors hover:text-primary ${
                 pathname === "/add-book" ? "text-primary" : "text-muted-foreground"
