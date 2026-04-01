@@ -1,38 +1,40 @@
-"use client"
+"use client";
 
-import { useEffect, useMemo, useState } from "react"
-import Image from "next/image"
-import Link from "next/link"
-import { Heart, Trash2 } from "lucide-react"
+import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { Heart, Trash2 } from "lucide-react";
 
 import {
   type WishlistBook,
   getWishlistBooks,
   removeBookFromWishlist,
-} from "@/lib/wishlist"
+} from "@/lib/wishlist";
 
 export function WishlistContent() {
-  const [wishlistBooks, setWishlistBooks] = useState<WishlistBook[]>([])
-  const [isReady, setIsReady] = useState(false)
+  const [wishlistBooks, setWishlistBooks] = useState<WishlistBook[]>([]);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    setWishlistBooks(getWishlistBooks())
-    setIsReady(true)
-  }, [])
+    setWishlistBooks(getWishlistBooks());
+    setIsReady(true);
+  }, []);
 
-  const totalBooks = useMemo(() => wishlistBooks.length, [wishlistBooks])
+  const totalBooks = useMemo(() => wishlistBooks.length, [wishlistBooks]);
 
   const handleRemove = (bookId: string) => {
-    const updatedBooks = removeBookFromWishlist(bookId)
-    setWishlistBooks(updatedBooks)
-  }
+    const updatedBooks = removeBookFromWishlist(bookId);
+    setWishlistBooks(updatedBooks);
+  };
 
   if (!isReady) {
     return (
       <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8">
-        <p className="text-sm text-muted-foreground">Loading your wishlist...</p>
+        <p className="text-sm text-muted-foreground">
+          Loading your wishlist...
+        </p>
       </div>
-    )
+    );
   }
 
   return (
@@ -46,7 +48,9 @@ export function WishlistContent() {
       <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
           <h1 className="text-3xl font-bold text-foreground">My Wishlist</h1>
-          <p className="mt-1 text-muted-foreground">Books you want to add to your collection later.</p>
+          <p className="mt-1 text-muted-foreground">
+            Books you want to add to your collection later.
+          </p>
         </div>
         <span className="inline-flex w-fit items-center gap-2 rounded-lg border border-border bg-card px-3 py-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
           <Heart className="h-4 w-4 text-primary" />
@@ -56,7 +60,9 @@ export function WishlistContent() {
 
       {wishlistBooks.length === 0 ? (
         <div className="rounded-xl border border-dashed border-border bg-card/50 p-8 text-center">
-          <p className="text-lg font-semibold text-foreground">Your wishlist is empty</p>
+          <p className="text-lg font-semibold text-foreground">
+            Your wishlist is empty
+          </p>
           <p className="mt-2 text-sm text-muted-foreground">
             Browse books and hit the wishlist button to save titles here.
           </p>
@@ -88,8 +94,12 @@ export function WishlistContent() {
                 )}
               </div>
               <div className="p-4">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-primary">{book.genre}</span>
-                <h3 className="mt-1 text-sm font-bold text-foreground">{book.title}</h3>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-primary">
+                  {book.genre}
+                </span>
+                <h3 className="mt-1 text-sm font-bold text-foreground">
+                  {book.title}
+                </h3>
                 <p className="text-xs text-muted-foreground">{book.author}</p>
                 <button
                   onClick={() => handleRemove(book.id)}
@@ -104,5 +114,5 @@ export function WishlistContent() {
         </div>
       )}
     </div>
-  )
+  );
 }

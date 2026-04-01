@@ -66,27 +66,6 @@ export const changePasswordSchema = z.object({
 export type ChangePasswordData = z.infer<typeof changePasswordSchema>
 
 /**
- * User role enum
- */
-export const userRoleSchema = z.enum(["coach", "player", "admin"])
-
-export type UserRole = z.infer<typeof userRoleSchema>
-
-/**
- * User status enum
- */
-export const userStatusSchema = z.enum(["active", "pending", "suspended", "inactive"])
-
-export type UserStatus = z.infer<typeof userStatusSchema>
-
-/**
- * Auth provider enum
- */
-export const authProviderSchema = z.enum(["Jwt", "Google", "Facebook"])
-
-export type AuthProvider = z.infer<typeof authProviderSchema>
-
-/**
  * User schema (for display/admin purposes)
  */
 export const userSchema = z.object({
@@ -96,9 +75,6 @@ export const userSchema = z.object({
   phone: z.string().optional(),
   city: z.string().optional(),
   country: z.string().optional(),
-  role: userRoleSchema,
-  status: userStatusSchema,
-  authProvider: authProviderSchema.optional(),
   profilePicture: z.string().url().optional().or(z.literal("")),
   joinDate: z.string().optional(),
   location: z.string().optional(),

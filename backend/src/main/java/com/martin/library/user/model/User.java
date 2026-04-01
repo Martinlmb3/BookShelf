@@ -2,6 +2,9 @@ package com.martin.library.user.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import com.martin.library.liked.model.LikedEntity;
+import com.martin.library.userBook.model.UserBookEntity;
+import com.martin.library.whishlist.model.WishlistEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDateTime;
@@ -17,7 +20,8 @@ import java.util.List;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_user")
     private Long id;
 
     @Column(unique = true, nullable = false)
@@ -29,6 +33,12 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
+    @Column(name = "refresh_token")
+    private String refreshToken;
+
+    @Column(name = "id_user_books")
+    private Long idUserBooks;
+
     private boolean enabled;
 
     @Column(name = "verification_code")
@@ -36,6 +46,15 @@ public class User implements UserDetails {
 
     @Column(name = "verification_expiration")
     private LocalDateTime verificationCodeExpiresAt;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserBookEntity> userBooks;
+
+    @OneToMany(mappedBy = "user")
+    private List<LikedEntity> likedBooks;
+
+    @OneToMany(mappedBy = "user")
+    private List<WishlistEntity> wishlist;
 
     public User(String username, String email, String password) {
         this.username = username;

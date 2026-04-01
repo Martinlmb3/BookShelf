@@ -1,20 +1,27 @@
-"use client"
+"use client";
 
-import { useEffect, useMemo, useState } from "react"
-import Link from "next/link"
-import Image from "next/image"
+import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import {
   Search,
   ChevronLeft,
   ChevronRight,
   Heart,
-} from "lucide-react"
+  ThumbsUp,
+} from "lucide-react";
 import {
   addBookToWishlist,
   getWishlistBooks,
   removeBookFromWishlist,
   type WishlistBook,
-} from "@/lib/wishlist"
+} from "@/lib/wishlist";
+import {
+  addBookToLiked,
+  getLikedBooks,
+  removeBookFromLiked,
+  type LikedBook,
+} from "@/lib/liked";
 
 const categories = [
   { name: "Fiction", checked: true },
@@ -22,7 +29,7 @@ const categories = [
   { name: "Sci-Fi & Fantasy", checked: false },
   { name: "Mystery", checked: false },
   { name: "Biography", checked: false },
-]
+];
 
 const books = [
   {
@@ -97,29 +104,41 @@ const books = [
     badge: null,
     wishlist: false,
   },
-]
-
+];
 
 export function BrowseContent() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [currentPage, setCurrentPage] = useState(1)
-  const [wishlistIds, setWishlistIds] = useState<Set<string>>(new Set())
+  const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [wishlistIds, setWishlistIds] = useState<Set<string>>(new Set());
+  const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    const savedBooks = getWishlistBooks()
-    setWishlistIds(new Set(savedBooks.map((book) => book.id)))
-  }, [])
+    const savedBooks = getWishlistBooks();
+    setWishlistIds(new Set(savedBooks.map((book) => book.id)));
 
-  const totalWishlistBooks = useMemo(() => wishlistIds.size, [wishlistIds])
+    const savedLikedBooks = getLikedBooks();
+    setLikedIds(new Set(savedLikedBooks.map((book) => book.id)));
+  }, []);
+
+  const totalWishlistBooks = useMemo(() => wishlistIds.size, [wishlistIds]);
 
   const handleToggleWishlist = (book: WishlistBook) => {
-    const alreadySaved = wishlistIds.has(book.id)
+    const alreadySaved = wishlistIds.has(book.id);
     const updated = alreadySaved
       ? removeBookFromWishlist(book.id)
-      : addBookToWishlist(book)
+      : addBookToWishlist(book);
 
-    setWishlistIds(new Set(updated.map((item) => item.id)))
-  }
+    setWishlistIds(new Set(updated.map((item) => item.id)));
+  };
+
+  const handleToggleLiked = (book: LikedBook) => {
+    const alreadyLiked = likedIds.has(book.id);
+    const updated = alreadyLiked
+      ? removeBookFromLiked(book.id)
+      : addBookToLiked(book);
+
+    setLikedIds(new Set(updated.map((item) => item.id)));
+  };
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8">
@@ -146,13 +165,18 @@ export function BrowseContent() {
             </h3>
             <div className="flex flex-col gap-3">
               {categories.map((cat) => (
-                <label key={cat.name} className="flex cursor-pointer items-center gap-3">
+                <label
+                  key={cat.name}
+                  className="flex cursor-pointer items-center gap-3"
+                >
                   <input
                     type="checkbox"
                     defaultChecked={cat.checked}
                     className="h-4 w-4 rounded border-border bg-secondary accent-primary"
                   />
-                  <span className="text-sm text-muted-foreground">{cat.name}</span>
+                  <span className="text-sm text-muted-foreground">
+                    {cat.name}
+                  </span>
                 </label>
               ))}
             </div>
@@ -167,7 +191,9 @@ export function BrowseContent() {
         <div className="flex-1">
           <div className="mb-6 flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-foreground">Browse Library</h1>
+              <h1 className="text-2xl font-bold text-foreground">
+                Browse Library
+              </h1>
               <p className="mt-1 text-sm text-muted-foreground">
                 Showing 1-12 of 156 results
               </p>
@@ -214,28 +240,53 @@ export function BrowseContent() {
                   <span className="text-[10px] font-bold uppercase tracking-wider text-primary">
                     {book.genre}
                   </span>
-                  <h3 className="mt-1 text-sm font-bold text-foreground">{book.title}</h3>
+                  <h3 className="mt-1 text-sm font-bold text-foreground">
+                    {book.title}
+                  </h3>
                   <p className="text-xs text-muted-foreground">{book.author}</p>
-                  <button
-                    onClick={() =>
-                      handleToggleWishlist({
-                        id: book.id,
-                        title: book.title,
-                        author: book.author,
-                        genre: book.genre,
-                        image: book.image,
-                        badge: book.badge,
-                      })
-                    }
-                    className={`mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors ${
-                      wishlistIds.has(book.id)
-                        ? "border-primary/40 text-primary hover:bg-primary/10"
-                        : "border-border text-muted-foreground hover:border-primary/30 hover:text-foreground"
-                    }`}
-                  >
-                    <Heart className="h-4 w-4" />
-                    {wishlistIds.has(book.id) ? "Added to wishlist" : "Add to wishlist"}
-                  </button>
+                  <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
+                    <button
+                      onClick={() =>
+                        handleToggleWishlist({
+                          id: book.id,
+                          title: book.title,
+                          author: book.author,
+                          genre: book.genre,
+                          image: book.image,
+                          badge: book.badge,
+                        })
+                      }
+                      className={`inline-flex w-full items-center justify-center gap-2 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors ${
+                        wishlistIds.has(book.id)
+                          ? "border-primary/40 text-primary hover:bg-primary/10"
+                          : "border-border text-muted-foreground hover:border-primary/30 hover:text-foreground"
+                      }`}
+                    >
+                      <Heart className="h-4 w-4" />
+                      {wishlistIds.has(book.id) ? "Wishlisted" : "Wishlist"}
+                    </button>
+
+                    <button
+                      onClick={() =>
+                        handleToggleLiked({
+                          id: book.id,
+                          title: book.title,
+                          author: book.author,
+                          genre: book.genre,
+                          image: book.image,
+                          badge: book.badge,
+                        })
+                      }
+                      className={`inline-flex w-full items-center justify-center gap-2 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors ${
+                        likedIds.has(book.id)
+                          ? "border-primary/40 text-primary hover:bg-primary/10"
+                          : "border-border text-muted-foreground hover:border-primary/30 hover:text-foreground"
+                      }`}
+                    >
+                      <ThumbsUp className="h-4 w-4" />
+                      {likedIds.has(book.id) ? "Liked" : "Like"}
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
@@ -273,5 +324,5 @@ export function BrowseContent() {
         </div>
       </div>
     </div>
-  )
+  );
 }

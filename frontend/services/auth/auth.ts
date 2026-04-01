@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { loginSchema } from "@/schemas/auth.schema";
 import axios from "axios";
 import api from "../api/axios";

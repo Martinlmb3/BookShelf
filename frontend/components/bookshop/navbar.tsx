@@ -1,12 +1,16 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import Image from "next/image"
-import { usePathname } from "next/navigation"
-import { Search, LogOut } from "lucide-react"
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+import { Search, LogOut } from "lucide-react";
 
-export function Navbar({ variant = "public" }: { variant?: "public" | "auth" }) {
-  const pathname = usePathname()
+export function Navbar({
+  variant = "public",
+}: {
+  variant?: "public" | "auth";
+}) {
+  const pathname = usePathname();
 
   if (variant === "auth") {
     return (
@@ -26,7 +30,9 @@ export function Navbar({ variant = "public" }: { variant?: "public" | "auth" }) 
             <Link
               href="/collection"
               className={`text-sm font-medium transition-colors hover:text-primary ${
-                pathname === "/collection" ? "text-primary" : "text-muted-foreground"
+                pathname === "/collection"
+                  ? "text-primary"
+                  : "text-muted-foreground"
               }`}
             >
               My Collection
@@ -34,15 +40,27 @@ export function Navbar({ variant = "public" }: { variant?: "public" | "auth" }) 
             <Link
               href="/browse"
               className={`text-sm font-medium transition-colors hover:text-primary ${
-                pathname === "/browse" ? "text-primary" : "text-muted-foreground"
+                pathname === "/browse"
+                  ? "text-primary"
+                  : "text-muted-foreground"
               }`}
             >
-              Browse Store
+              Library
+            </Link>
+            <Link
+              href="/liked"
+              className={`text-sm font-medium transition-colors hover:text-primary ${
+                pathname === "/liked" ? "text-primary" : "text-muted-foreground"
+              }`}
+            >
+              Liked
             </Link>
             <Link
               href="/wishlist"
               className={`text-sm font-medium transition-colors hover:text-primary ${
-                pathname === "/wishlist" ? "text-primary" : "text-muted-foreground"
+                pathname === "/wishlist"
+                  ? "text-primary"
+                  : "text-muted-foreground"
               }`}
             >
               Wishlist
@@ -50,7 +68,9 @@ export function Navbar({ variant = "public" }: { variant?: "public" | "auth" }) 
             <Link
               href="/add-book"
               className={`text-sm font-medium transition-colors hover:text-primary ${
-                pathname === "/add-book" ? "text-primary" : "text-muted-foreground"
+                pathname === "/add-book"
+                  ? "text-primary"
+                  : "text-muted-foreground"
               }`}
             >
               Add Book
@@ -58,7 +78,9 @@ export function Navbar({ variant = "public" }: { variant?: "public" | "auth" }) 
             <Link
               href="/ask-my-book"
               className={`text-sm font-medium transition-colors hover:text-primary ${
-                pathname === "/ask-my-book" ? "text-primary" : "text-muted-foreground"
+                pathname === "/ask-my-book"
+                  ? "text-primary"
+                  : "text-muted-foreground"
               }`}
             >
               AskMyBook
@@ -74,7 +96,7 @@ export function Navbar({ variant = "public" }: { variant?: "public" | "auth" }) 
           </div>
         </div>
       </header>
-    )
+    );
   }
 
   return (
@@ -95,7 +117,7 @@ export function Navbar({ variant = "public" }: { variant?: "public" | "auth" }) 
             href="/browse"
             className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
           >
-            Browse
+            Library
           </Link>
           <Link
             href="/collection"
@@ -127,5 +149,5 @@ export function Navbar({ variant = "public" }: { variant?: "public" | "auth" }) 
         </button>
       </div>
     </header>
-  )
+  );
 }
