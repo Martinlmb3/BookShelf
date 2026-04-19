@@ -6,16 +6,14 @@
 
 <div align="center">
 
-[![Next.js](https://img.shields.io/badge/Next.js-black?logo=next.js&logoColor=white)](https://nextjs.org/)
-[![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?logo=spring-boot&logoColor=white)](https://spring.io/projects/spring-boot)
-[![Java](https://img.shields.io/badge/Java-ED8B00?logo=openjdk&logoColor=white)](https://www.java.com/)
-[![React](https://img.shields.io/badge/React_19-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![Next.js](https://img.shields.io/badge/Next.js_14-black?logo=next.js&logoColor=white)](https://nextjs.org/)
+[![Spring Boot](https://img.shields.io/badge/Spring_Boot_3.5.5-6DB33F?logo=spring-boot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![Java](https://img.shields.io/badge/Java_17-ED8B00?logo=openjdk&logoColor=white)](https://www.java.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![shadcn/ui](https://img.shields.io/badge/shadcn/ui-000000?logo=shadcnui&logoColor=white)](https://ui.shadcn.com/)
 [![Zod](https://img.shields.io/badge/Zod-3E67B1?logo=zod&logoColor=white)](https://zod.dev/)
-[![AWS](https://custom-icon-badges.demolab.com/badge/AWS-%23FF9900.svg?logo=aws&logoColor=white)](https://aws.amazon.com/)
 [![Vercel](https://img.shields.io/badge/Vercel-black?logo=vercel&logoColor=white)](https://vercel.com/)
 
 </div>
@@ -28,95 +26,143 @@
 
 ## ✨ Features
 
-- **🏠 Landing Page**: Modern, responsive homepage with hero section and recently added books
-- **🔐 User Authentication**: Secure login and sign-up with Spring Security and JWT
-- **📚 Book Management**: Add books with ISBN, title, author, cover upload, and synopsis
-- **📖 Collection Dashboard**: Personal library with statistics, search, edit, and delete functionality
-- **🌐 Book Discovery**: Browse books across categories with advanced filtering and sorting
-- **📤 Drag & Drop Upload**: Intuitive book cover upload with drag-and-drop or file selection
-- **☁️ File Storage**: AWS S3 integration for book cover and image hosting
-- **📱 Responsive Design**: Mobile-first approach with modern UI components
-- **🎨 Dark Theme**: Sleek dark mode design with golden and purple accents
-- **🔍 Smart Search**: Search by title, author, or ISBN across your collection and the store
-- **📊 Reading Stats**: Track total books, currently reading, read this year, and pages logged
+- **🏠 Landing Page** — Modern homepage with hero section and recently added books
+- **🔐 Authentication** — Email/password with JWT, email verification, and planned Google & Apple OAuth
+- **📚 Book Management** — Add books with ISBN, title, author, cover upload, and synopsis
+- **📖 Collection Dashboard** — Personal library with statistics, search, edit, and delete
+- **❤️ Wishlist & Liked** — Save books to wishlist and mark favourites
+- **🌐 Book Discovery** — Browse books across categories with filtering and sorting
+- **📤 Book Upload** — Upload books with cover images
+- **🤖 AI Chat** — Ask questions about a selected book via AI
+- **📱 Responsive Design** — Mobile-first with dark theme and golden/purple accents
 
 ## 🚀 Tech Stack
 
-### Frontend
+### Frontend Stack
 
-- **Framework**: Next.js 16 (App Router)
-- **Language**: TypeScript, React 19
-- **Styling**: Tailwind CSS
-- **UI Components**: shadcn/ui + Radix UI (30+ components)
-- **Icons**: Lucide React
-- **Forms**: React Hook Form + Zod validation
-- **Charts**: Recharts
-- **Fonts**: Inter (sans-serif), JetBrains Mono (monospace)
+| Technology | Details |
+| --- | --- |
+| Framework | Next.js 14 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS |
+| UI Components | shadcn/ui + Radix UI |
+| State / Data fetching | React Query (`@tanstack/react-query`) |
+| HTTP client | Axios |
+| Forms | React Hook Form + Zod |
+| Icons | Lucide React |
 
-### Backend
+### Backend Stack
 
-- **Framework**: Spring Boot 3.x
-- **Language**: Java 17
-- **Database**: H2 (development), PostgreSQL (production)
-- **Authentication**: Spring Security + JWT
-- **File Storage**: AWS S3
-- **API Documentation**: Swagger / OpenAPI
-- **Build Tool**: Gradle
+| Technology | Details |
+| --- | --- |
+| Framework | Spring Boot 3.5.5 |
+| Language | Java 17 |
+| Database | PostgreSQL |
+| Authentication | Spring Security + JWT (HS256) |
+| Email | Spring Mail (SMTP / Gmail) |
+| API docs | Springdoc OpenAPI / Swagger UI |
+| Build tool | Gradle |
 
 ## 📁 Project Structure
 
-```
-BookShop/
-├── frontend/                     # Next.js frontend application
-│   ├── app/                      # App router pages
-│   │   ├── layout.tsx            # Root layout
-│   │   ├── page.tsx              # Landing page
-│   │   ├── login/page.tsx        # Login page
-│   │   ├── signup/page.tsx       # Sign up page
-│   │   ├── browse/page.tsx       # Browse library
-│   │   ├── collection/page.tsx   # User's book collection
-│   │   └── add-book/page.tsx     # Add new book
+```text
+BookShelf/
+├── frontend/
+│   ├── app/
+│   │   ├── layout.tsx
+│   │   ├── page.tsx                  # Landing page
+│   │   ├── login/page.tsx
+│   │   ├── signup/page.tsx
+│   │   ├── browse/page.tsx
+│   │   ├── collection/page.tsx
+│   │   ├── add-book/page.tsx
+│   │   ├── ask-my-book/page.tsx      # AI book chat
+│   │   └── documentation/page.tsx
 │   ├── components/
-│   │   ├── bookshop/             # Custom BookShop components
-│   │   │   ├── navbar.tsx        # Navigation bar (public & auth)
-│   │   │   ├── footer.tsx        # Footer component
-│   │   │   ├── login-form.tsx    # Login form
-│   │   │   ├── signup-form.tsx   # Sign up form
-│   │   │   ├── add-book-form.tsx # Add book with drag-drop
-│   │   │   ├── collection-dashboard.tsx  # Collection management
-│   │   │   ├── browse-content.tsx        # Book browsing & filters
-│   │   │   ├── hero-section.tsx          # Landing hero section
-│   │   │   ├── recently-added.tsx        # Recently added books
-│   │   │   └── cta-section.tsx           # Call-to-action section
-│   │   ├── ui/                   # shadcn/ui components
-│   │   └── theme-provider.tsx    # Theme provider
-│   ├── hooks/                    # Custom React hooks
-│   ├── lib/                      # Utility functions
-│   └── public/images/            # Static assets & book covers
-├── backend/                      # Spring Boot API
-│   ├── src/main/java/
-│   │   └── com/bookshop/
-│   │       ├── controller/       # REST controllers
-│   │       ├── service/          # Business logic
-│   │       ├── model/            # Entity models
-│   │       ├── repository/       # Data access
-│   │       └── config/           # Security & app configuration
-│   ├── src/main/resources/
-│   │   └── application.properties
-│   └── build.gradle              # Gradle configuration
+│   │   ├── bookshop/                 # App-specific components
+│   │   │   ├── navbar.tsx
+│   │   │   ├── footer.tsx
+│   │   │   ├── login-form.tsx        # Email/password + OAuth buttons
+│   │   │   ├── signup-form.tsx       # Email/password + OAuth buttons
+│   │   │   ├── hero-section.tsx
+│   │   │   ├── recently-added.tsx
+│   │   │   ├── cta-section.tsx
+│   │   │   ├── browse-content.tsx
+│   │   │   └── collection-dashboard.tsx
+│   │   └── ui/                       # shadcn/ui components
+│   ├── services/
+│   │   ├── api/
+│   │   │   ├── axios.ts              # Axios instance with JWT interceptor
+│   │   │   ├── book.ts
+│   │   │   └── user.ts
+│   │   └── auth/
+│   │       ├── auth.ts               # useLogin / useSignup React Query hooks
+│   │       └── storage.ts            # Token storage utilities
+│   ├── schemas/
+│   │   ├── auth.schema.ts            # Zod schemas for login and signup
+│   │   └── user.schema.ts
+│   └── lib/
+│       ├── utils.ts
+│       ├── wishlist.ts
+│       └── liked.ts
+├── backend/
+│   └── src/main/java/com/martin/library/
+│       ├── configuration/            # Security, JWT filter, app config
+│       ├── user/
+│       │   ├── controller/           # AuthenticationController, UserController
+│       │   ├── service/              # AuthenticationService, JwtService
+│       │   ├── model/
+│       │   ├── repository/
+│       │   ├── dto/request/
+│       │   └── responses/
+│       ├── book/
+│       ├── uploadBook/
+│       ├── genre/
+│       ├── userBook/
+│       ├── liked/
+│       └── whishlist/
+├── docs/
+│   └── auth-guide.md
 └── README.md
 ```
 
-## 🛠️ Installation & Setup
+## 🛠️ Setup
 
 ### Prerequisites
 
-- Node.js 18+ and npm
+- Node.js 18+
 - Java 17+ JDK
-- PostgreSQL database (optional for production)
-- Gradle (wrapper included)
+- PostgreSQL running on port 5432 with a database named `bookshelf`
+
+### Backend Setup
+
+Create `backend/.env`:
+
+```env
+JWT_SECRET_KEY=your-base64-encoded-secret
+JWT_EXPIRATION_TIME=3600000
+SUPPORT_EMAIL=you@gmail.com
+APP_PASSWORD=your-gmail-app-password
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+```
+
+```bash
+cd backend
+gradlew.bat bootRun   # Windows
+./gradlew bootRun     # Linux / Mac
+```
+
+Server runs at `http://localhost:8080`
+Swagger UI: `http://localhost:8080/swagger-ui/index.html`
 
 ### Frontend Setup
+
+Create `frontend/.env.local`:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8080
+```
 
 ```bash
 cd frontend
@@ -124,125 +170,65 @@ npm install
 npm run dev
 ```
 
-The frontend will run at `http://localhost:3000`
-
-### Backend Setup
-
-```bash
-cd backend
-./gradlew bootRun
-```
-
-The backend API will run at `http://localhost:8080`
+Frontend runs at `http://localhost:3000`
 
 ## 🌐 API Endpoints
 
-### Authentication
+### Authentication (no token required)
 
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
+| Method | Path | Body / Params | Returns |
+| --- | --- | --- | --- |
+| POST | `/auth/signup` | `{ username, email, password }` | User object |
+| POST | `/auth/login` | `{ email, password }` | `{ token, expiresIn }` |
+| POST | `/auth/verify` | `{ email, verificationCode }` | 200 OK |
+| POST | `/auth/resend` | `?email=` | 200 OK |
 
-### Books
+### Books (JWT required)
 
-- `GET /api/books` - Get all books
-- `GET /api/books/{id}` - Get book details
-- `POST /api/books` - Add a new book
-- `PUT /api/books/{id}` - Update a book
-- `DELETE /api/books/{id}` - Delete a book
-- `GET /api/books/search` - Search books by title, author, or ISBN
+| Method | Path | Description |
+| --- | --- | --- |
+| GET | `/books` | All books |
+| GET | `/books/{id}` | Book by ID |
+| POST | `/books` | Create book |
+| PUT | `/books/{id}` | Update book |
+| DELETE | `/books/{id}` | Delete book |
 
-### Collection
+## 🔐 Auth Flow
 
-- `GET /api/collection` - Get user's book collection
-- `POST /api/collection` - Add book to collection
-- `DELETE /api/collection/{id}` - Remove book from collection
-- `GET /api/collection/stats` - Get reading statistics
-
-### Users
-
-- `GET /api/users/{id}` - Get user profile
-- `PUT /api/users/{id}` - Update user profile
-
-## 🗄️ Database Schema
-
-Key entities include:
-
-- **Users**: User profiles and authentication data
-- **Books**: Book details, ISBN, cover, and descriptions
-- **Collection**: User-book relationships and reading status
-- **Categories**: Book categorization (Fiction, Non-Fiction, Sci-Fi, Mystery, Biography)
-- **ReadingStats**: Progress tracking and reading history
-
-## 📝 Pages
-
-- `/` - Landing page with hero and featured books
-- `/login` - User login with email/password
-- `/signup` - User registration
-- `/browse` - Browse all books with category filters, ratings, and sorting
-- `/collection` - Personal book collection dashboard
-- `/add-book` - Add a new book to your collection
-
-## 🎨 UI Components
-
-Built with modern, accessible components:
-
-- Responsive navigation with public and authenticated variants
-- Book cards with genre tags and rating badges
-- Category filters (Fiction, Non-Fiction, Sci-Fi & Fantasy, Mystery, Biography)
-- Sort options (Newest, Best Rating, A-Z, Z-A)
-- Collection table with search, edit, and delete actions
-- Drag-and-drop file upload for book covers
-- Toast notifications for user feedback
-- Code-editor styled sign-up form
-
-## 🔧 Development
-
-### Frontend Development
-
-```bash
-npm run dev          # Start development server (Turbo)
-npm run build        # Build for production
-npm start            # Start production server
-npm run lint         # Run ESLint
+```text
+Signup  →  email verification (6-digit code)  →  Login  →  JWT stored in localStorage
+All requests  →  axios interceptor adds  Authorization: Bearer <token>
+401 response  →  token removed  →  redirect to /login
 ```
 
-### Backend Development
+### Planned: OAuth 2.0
 
-```bash
-./gradlew bootRun    # Start with hot reload
-./gradlew test       # Run tests
-./gradlew build      # Build production JAR
-```
+- Google Sign-In — via Spring Security OAuth2 client
+- Apple Sign-In — via Apple Developer Services
+
+See [docs/auth-guide.md](docs/auth-guide.md) for the full implementation plan.
 
 ## 📦 Deployment
 
-### Frontend (Vercel)
+### Frontend — Vercel
 
 1. Connect GitHub repository to Vercel
-2. Set build command: `cd frontend && npm run build`
-3. Set output directory: `frontend/.next`
-4. Configure environment variables
-5. Deploy automatically on push to main
+2. Set root directory: `frontend`
+3. Add environment variable: `NEXT_PUBLIC_API_URL=https://your-api-domain.com`
+4. Deploy on push to `main`
 
-### Backend Deployment
+### Backend — Self-hosted
 
-1. Configure PostgreSQL connection string
-2. Set environment variables (JWT secret, DB credentials, AWS S3 keys)
-3. Configure AWS S3 bucket for image storage
-4. Build JAR: `./gradlew build`
-5. Deploy to cloud provider (AWS, Azure, etc.)
+1. Provision a PostgreSQL database
+2. Set all environment variables from `backend/.env`
+3. Build: `./gradlew build`
+4. Run the JAR or deploy to any JVM-compatible host (Railway, Render, AWS, etc.)
 
-## 🤝 Contributing
+## 📝 Documentation
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Internal docs live in [`docs/`](docs/):
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- [`auth-guide.md`](docs/auth-guide.md) — Auth system, known bugs, localStorage vs cookies, Google & Apple OAuth implementation
 
 ## 👨‍💻 Author
 
@@ -251,16 +237,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - GitHub: [@Martinlmb3](https://github.com/Martinlmb3)
 - Project: [BookShop](https://github.com/Martinlmb3/BookShop)
 
-## 🙏 Acknowledgments
-
-- [Next.js](https://nextjs.org/) for the React framework
-- [Spring Boot](https://spring.io/projects/spring-boot) for the backend framework
-- [shadcn/ui](https://ui.shadcn.com) for the component library
-- [Radix UI](https://www.radix-ui.com/) for accessible primitives
-- [Lucide](https://lucide.dev) for beautiful icons
-- [Tailwind CSS](https://tailwindcss.com) for styling
-- [AWS S3](https://aws.amazon.com/s3/) for file storage
-
 ---
 
-**BookShop** - Your personal digital library, beautifully organized. 📚✨
+BookShelf — your personal digital library, beautifully organized. 📚
