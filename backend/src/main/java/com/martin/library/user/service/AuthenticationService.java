@@ -6,6 +6,7 @@ import com.martin.library.user.dto.request.RegisterUserDto;
 import com.martin.library.user.model.User;
 import com.martin.library.user.repository.UserRepository;
 import jakarta.mail.MessagingException;
+import com.martin.library.user.exception.InvalidCredentialsException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,7 +34,7 @@ public class AuthenticationService {
     }
 
     public User signup(RegisterUserDto input) {
-        User user = new User(input.getUsername(), input.getEmail(), passwordEncoder.encode(input.getPassword()));
+        User user = new User(input.getFirstName(), input.getLastName(), input.getEmail(), passwordEncoder.encode(input.getPassword()));
         user.setVerificationCode(generateVerificationCode());
         user.setVerificationCodeExpiresAt(LocalDateTime.now().plusMinutes(15));
         user.setEnabled(false);
@@ -42,16 +43,22 @@ public class AuthenticationService {
     }
 
     public User authenticate(LoginUserDto input) {
+
         User user = userRepository.findByEmail(input.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(InvalidCredentialsException::new);
 
         if (!user.isEnabled()) {
-            throw new RuntimeException("Account not verified. Please verify your account");
+            throw new InvalidCredentialsException();
         }
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        input.getEmail(),
-                        input.getPassword()));
+
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            input.getEmail(),
+                            input.getPassword()));
+        } catch (Exception e) {
+            throw new InvalidCredentialsException();
+        }
 
         return user;
     }

@@ -15,6 +15,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import com.martin.library.genre.model.GenreEntity;
 import com.martin.library.liked.model.LikedEntity;
+import com.martin.library.uploadBook.model.UploadBookEntity;
 import com.martin.library.userBook.model.UserBookEntity;
 import com.martin.library.whishlist.model.WishlistEntity;
 import lombok.AllArgsConstructor;
@@ -72,4 +73,7 @@ public class BookEntity {
 
     @OneToMany(mappedBy = "book")
     private List<WishlistEntity> wishlistedByUsers;
+
+    @OneToMany(mappedBy = "book")
+    private List<UploadBookEntity> uploadBookHistory;
 }

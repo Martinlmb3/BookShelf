@@ -4,11 +4,16 @@ import { z } from "zod"
  * User profile update schema
  */
 export const updateProfileSchema = z.object({
-  name: z
+  firstName: z
     .string()
-    .min(1, "Name is required")
-    .min(2, "Name must be at least 2 characters")
-    .max(100, "Name must be less than 100 characters"),
+    .min(1, "First name is required")
+    .min(2, "First name must be at least 2 characters")
+    .max(100, "First name must be less than 100 characters"),
+  lastName: z
+    .string()
+    .min(1, "Last name is required")
+    .min(2, "Last name must be at least 2 characters")
+    .max(100, "Last name must be less than 100 characters"),
   email: z
     .string()
     .min(1, "Email is required")
@@ -70,7 +75,8 @@ export type ChangePasswordData = z.infer<typeof changePasswordSchema>
  */
 export const userSchema = z.object({
   id: z.number().or(z.string()),
-  name: z.string().min(1, "Name is required"),
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
   email: z.string().email("Invalid email address"),
   phone: z.string().optional(),
   city: z.string().optional(),
@@ -100,26 +106,3 @@ export const profilePictureSchema = z.object({
 
 export type ProfilePictureData = z.infer<typeof profilePictureSchema>
 
-/**
- * User filter schema (for admin user management)
- */
-export const userFilterSchema = z.object({
-  search: z.string().optional(),
-  role: userRoleSchema.optional(),
-  status: userStatusSchema.optional(),
-  sortBy: z.enum(["name", "email", "joinDate", "lastActive", "totalMessages"]).optional(),
-  sortOrder: z.enum(["asc", "desc"]).optional(),
-})
-
-export type UserFilterData = z.infer<typeof userFilterSchema>
-
-/**
- * Update user status schema (admin action)
- */
-export const updateUserStatusSchema = z.object({
-  userId: z.number().or(z.string()),
-  status: userStatusSchema,
-  reason: z.string().optional(),
-})
-
-export type UpdateUserStatusData = z.infer<typeof updateUserStatusSchema>

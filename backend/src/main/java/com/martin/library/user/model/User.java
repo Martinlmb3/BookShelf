@@ -24,8 +24,11 @@ public class User implements UserDetails {
     @Column(name = "id_user")
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String username;
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+
+    @Column(name = "last_name", nullable = false)
+    private String lastName;
 
     @Column(unique = true, nullable = false)
     private String email;
@@ -56,10 +59,16 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<WishlistEntity> wishlist;
 
-    public User(String username, String email, String password) {
-        this.username = username;
+    public User(String firstName, String lastName, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.password = password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
     }
 
     @Override

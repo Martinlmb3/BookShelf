@@ -1,27 +1,16 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from "@tanstack/react-query";
-import { loginSchema } from "@/schemas/auth.schema";
-import axios from "axios";
+import { loginSchema, signupSchema } from "@/schemas/auth.schema";
+import { z } from "zod";
 import api from "../api/axios";
-interface SignupData {
-  username: string;
-  email: string;
-  password: string;
-}
 
-interface LoginData {
-  email: string;
-  password: string;
-}
-//Todo:Ajouter les imports des schema 
-// Auth mutations
 export function useSignup() {
   return useMutation({
-    mutationFn: async (data: SignupData) => {
-      const response = await api.post("/api/auth/signup", data);
+    mutationFn: async (data: z.infer<typeof signupSchema>) => {
+      const response = await api.post("/auth/signup", data);
       return response.data;
     },
     onSuccess: (data) => {
-      // Handle successful signup (e.g., save token)
       console.log("Signup successful:", data);
     },
     onError: (error: any) => {
@@ -32,15 +21,12 @@ export function useSignup() {
 
 export function useLogin() {
   return useMutation({
-    mutationFn: async (data: LoginData) => {
-      const response = await api.post("/api/auth/login", data);
+    mutationFn: async (data: z.infer<typeof loginSchema>) => {
+      const response = await api.post("/auth/login", data);
       return response.data;
     },
-    onSuccess: (data) => {
-      // Save token to localStorage
-      if (data.token) {
-        localStorage.setItem("token", data.token);
-      }
+    onError: (error: any) => {
+      console.error("Login error:", error.response?.data || error.message);
     },
   });
 }

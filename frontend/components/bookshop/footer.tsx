@@ -124,12 +124,6 @@ export function Footer() {
           <p className="text-sm text-muted-foreground">
             {`© ${currentYear} BookShelf. All rights reserved.`}
           </p>
-          <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-emerald-500" />
-            <span className="text-sm text-muted-foreground">
-              Service Status: Operational
-            </span>
-          </div>
         </div>
       </div>
     </footer>

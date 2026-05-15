@@ -8,6 +8,8 @@ docs/
 # ========================
 target/
 *.iml
+backend/.gradle/
+backend/build/
 
 # ========================
 # Frontend (Next.js)
