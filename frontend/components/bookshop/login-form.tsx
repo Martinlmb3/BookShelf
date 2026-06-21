@@ -159,8 +159,8 @@ export function LoginForm() {
           {/* OAuth Buttons */}
           <div className="grid grid-cols-2 gap-3">
             <a
-              href="http://localhost:8080/auth/oauth2/authorize/google"
-              className="flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-secondary/50 py-3 text-sm font-medium text-foreground hover:bg-secondary"
+              href="http://localhost:8081/auth/oauth2/authorize/google"
+              className="flex items-center justify-center gap-2 rounded-lg border border-border bg-secondary/50 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
             >
               <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
                 <path

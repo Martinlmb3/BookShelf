@@ -197,11 +197,8 @@ export function SignupForm() {
 
           {/* OAuth Buttons */}
           <div className="grid grid-cols-2 gap-3">
-            <button
-              type="button"
-              onClick={() => {
-                /* TODO: Google OAuth */
-              }}
+            <a
+              href="http://localhost:8081/auth/oauth2/authorize/google"
               className="flex items-center justify-center gap-2 rounded-lg border border-border bg-secondary/50 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
             >
               <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
@@ -223,7 +220,7 @@ export function SignupForm() {
                 />
               </svg>
               Google
-            </button>
+            </a>
 
             <button
               type="button"

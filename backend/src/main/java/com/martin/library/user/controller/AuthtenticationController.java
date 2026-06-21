@@ -4,15 +4,21 @@ import com.martin.library.user.dto.VerifyUserDto;
 import com.martin.library.user.dto.request.LoginUserDto;
 import com.martin.library.user.dto.request.RegisterUserDto;
 import com.martin.library.user.model.User;
-import com.martin.library.user.responses.LoginResponse;
 import com.martin.library.user.service.AuthenticationService;
 import com.martin.library.user.service.JwtService;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import java.time.Duration;
 
 @RequestMapping("/auth")
 @RestController
 public class AuthtenticationController {
+
     private final JwtService jwtService;
     private final AuthenticationService authenticationService;
 
@@ -23,57 +29,36 @@ public class AuthtenticationController {
 
     /**
      * Registers a new user account.
+     * Creates the user (disabled until email is verified) and sends a 6-digit
+     * verification code to their email.
      *
-     * <p>
-     * Creates the user (disabled until email is verified), sends a 6-digit
-     * verification code to their email, and returns a short-lived opaque token
-     * stored in Redis. The token is used in place of the email on the verify
-     * endpoint so the email is never exposed in the URL.
-     *
-     * @param req the signup payload containing {@code username}, {@code email}, and
-     *            {@code password}
-     * @return {@code 200} with {@code { "verificationToken": "<uuid>" }}
+     * @param input the signup payload containing firstName, lastName, email, and password
+     * @return 200 on success
      */
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody SignupRequest req) {
-        userService.createUser(req);
-
-        // Generate opaque token, store mapping in Redis or DB
-        String token = UUID.randomUUID().toString();
-        redisTemplate.opsForValue().set(
-                "verify:token:" + token,
-                req.getEmail(),
-                Duration.ofMinutes(10));
-
-        return ResponseEntity.ok(Map.of("verificationToken", token));
+    public ResponseEntity<?> signup(@RequestBody RegisterUserDto input) {
+        authenticationService.signup(input);
+        return ResponseEntity.ok().build();
     }
 
     /**
-     * Authenticates a user and returns a JWT.
+     * Authenticates a user and sets an HttpOnly JWT cookie.
      *
-     * <p>
-     * Validates the credentials against the database. The account must have
-     * been verified before login is permitted. On success, returns a signed
-     * HS256 JWT and its expiry duration in milliseconds.
-     *
-     * @param loginUserDto the login payload containing {@code email} and
-     *                     {@code password}
-     * @return {@code 200} with {@link LoginResponse} containing the token and
-     *         expiry,
-     *         or {@code 401} if credentials are invalid or the account is not
-     *         verified
+     * @param loginUserDto the login payload containing email and password
+     * @param response     used to attach the Set-Cookie header
+     * @return 200 on success, 401 if credentials are invalid or account is unverified
      */
     @PostMapping("/login")
     public ResponseEntity<Void> authenticate(
             @RequestBody LoginUserDto loginUserDto,
             HttpServletResponse response) {
         User authenticatedUser;
-
         try {
             authenticatedUser = authenticationService.authenticate(loginUserDto);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
         }
+
         String jwtToken = jwtService.generateToken(authenticatedUser);
 
         ResponseCookie cookie = ResponseCookie.from("token", jwtToken)
@@ -89,44 +74,26 @@ public class AuthtenticationController {
     }
 
     /**
-     * Verifies a user's email address using an opaque token and a 6-digit code.
+     * Verifies a user's email address using the 6-digit code sent at signup.
      *
-     * <p>
-     * Looks up the email mapped to the given token in Redis. If the token has
-     * expired or does not exist, returns {@code 400}. On success, enables the
-     * account and deletes the token from Redis so it cannot be reused.
-     *
-     * @param req the verify payload containing {@code token} (opaque UUID) and
-     *            {@code code} (6-digit string)
-     * @return {@code 200} on success, {@code 400} if the token is expired or
-     *         invalid
+     * @param input the verify payload containing email and verificationCode
+     * @return 200 on success, 400 if the code is invalid or expired
      */
     @PostMapping("/verify")
-    public ResponseEntity<?> verify(@RequestBody VerifyRequest req) {
-        String key = "verify:token:" + req.getToken();
-        String email = (String) redisTemplate.opsForValue().get(key);
-
-        if (email == null)
-            return ResponseEntity.status(400).body("Token expired");
-
-        verificationService.verify(email, req.getCode());
-        redisTemplate.delete(key);
-
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> verify(@RequestBody VerifyUserDto input) {
+        try {
+            authenticationService.verifyUser(input);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     /**
-     * Resends the email verification code to the given address.
+     * Resends the email verification code.
      *
-     * <p>
-     * Generates a new 6-digit code, updates the stored code for the account,
-     * and sends a fresh email. The account must exist and must not already be
-     * verified. Intended for users who did not receive or lost their original code.
-     *
-     * @param email the email address to resend the code to (passed as a query
-     *              param)
-     * @return {@code 200} with a confirmation message, or {@code 400} if the
-     *         account does not exist or is already verified
+     * @param email the email address to resend the code to
+     * @return 200 with confirmation message, 400 if not found or already verified
      */
     @PostMapping("/resend")
     public ResponseEntity<?> resendVerificationCode(@RequestParam String email) {
@@ -138,6 +105,12 @@ public class AuthtenticationController {
         }
     }
 
+    /**
+     * Logs out the current user by clearing the JWT cookie.
+     *
+     * @param response used to attach the cleared Set-Cookie header
+     * @return 200
+     */
     @PostMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletResponse response) {
         ResponseCookie cookie = ResponseCookie.from("token", "")
